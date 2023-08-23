@@ -12,28 +12,32 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   -webkit-text-size-adjust: 100%;
+  --ta: #2b2e32;
+  --ta-us: #2a2d30;
 }
 
-a {
-  font-weight: 500;
-  color: #646cff;
-  text-decoration: inherit;
+@font-face {
+  font-family: Puppy;
+  src: url("./assets/Puppybellies-JyRM.ttf");
 }
-a:hover {
-  color: #535bf2;
+
+@font-face {
+  font-family: Puppybllies;
+  src: url("./assets/Puppybellies-JyRM.ttf");
 }
 
 body {
-  margin: 0;
+  margin: 1rem 0.6rem;
   display: flex;
-  place-items: center;
   min-width: 320px;
   min-height: 100vh;
 }
 
 h1 {
-  font-size: 3.2em;
-  line-height: 1.1;
+  text-align: center;
+  font-family: Puppy, Arial, Helvetica, sans-serif;
+  font-size: 3rem;
+  margin: 0.7rem 0;
 }
 
 button {
@@ -46,7 +50,68 @@ button {
   background-color: #1a1a1a;
   cursor: pointer;
   transition: border-color 0.25s;
+  margin-left: 0.6rem;
+  margin: 0.6rem;
 }
+
+button svg {
+  vertical-align: middle;
+}
+
+ul {
+  padding-left: 0;
+  margin: 0;
+}
+.edit-li {
+  list-style-type: none;
+  position: relative;
+  font-family: Puppybllies, Arial, Helvetica, sans-serif;
+}
+
+
+.edit-btns {
+  display: inline-block;
+  position: absolute;
+  z-index: 1;
+  left: 2rem;
+  top: -1.3rem;
+}
+
+.edit-btns svg {
+  margin: 0.2rem;
+  padding: 0.2rem;
+  background-color: #2f4150;
+  cursor: pointer;
+}
+
+div {
+  margin: 0;
+  width: 100%;
+/*   background-color: #646cff; */
+}
+
+.todo-input {
+  text-align: end;
+}
+
+textarea {
+  display: block;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  width: 100%;
+  height: 3rem;
+  resize: none;
+  outline: none;
+  border: none;
+  background-color: var(--ta-us);
+  font-family: Puppybllies, Arial, Helvetica, sans-serif;
+}
+
+textarea:focus {
+  background-color: var(--ta);
+}
+
 button:hover {
   border-color: #646cff;
 }
@@ -59,11 +124,18 @@ button:focus-visible {
   :root {
     color: #213547;
     background-color: #ffffff;
+    --ta: #b5c4c4;
+    --ta-us: #dde0e8;
+    --btn-c: #ced6de;
   }
   a:hover {
-    color: #747bff;
+    color: #749bff;
   }
   button {
-    background-color: #f9f9f9;
+    background-color: var(--btn-c);
+  }
+
+  .edit-btns svg {
+    background-color: var(--btn-c);
   }
 }

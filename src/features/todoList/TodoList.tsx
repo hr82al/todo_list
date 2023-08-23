@@ -1,0 +1,112 @@
+import {
+  selectTodoItems,
+  itemAdded,
+  itemDeleted,
+  itemEdited,
+  switchChecked,
+  TodoItem,
+  selectEditId,
+  editIdUpdated,
+  todoChanged,
+  selectTodo,
+} from './todoListSlice'
+import { useRef, useState } from "react";
+import { useAppDispatch, useAppSelector } from "../../app/hooks";
+import { BiEditAlt, BiSolidMessageSquareAdd } from 'react-icons/bi';
+import { AiFillDelete } from 'react-icons/ai'
+
+
+function ItemEditor({ itemId }: { itemId: number }) {
+  const dispatch = useAppDispatch();
+  function handleDelete(id: number) {
+    dispatch(itemDeleted(id));
+  }
+
+  function handleStartEdit(id: number) {
+    dispatch(editIdUpdated(id));
+  }
+
+  return (
+    <span className='edit-btns'>
+      <AiFillDelete onClick={() => handleDelete(itemId)} />
+      <BiEditAlt onClick={() => handleStartEdit(itemId)} />
+    </span>
+  )
+}
+
+function ListItem({item}: {item: TodoItem}) { 
+  const [isShowMenu, setIsShowMenu] = useState(false);
+  const dispatch = useAppDispatch();
+
+  function handleCheck(id: number) {
+    dispatch(switchChecked(id));
+  }
+
+  return (
+    <li
+      className='edit-li'
+      onMouseOver={() => setIsShowMenu(true)}
+      onMouseLeave={() => setIsShowMenu(false)}
+    >
+      <input
+        style={{padding: "auto"}}
+        type="checkbox"
+        checked={item.isDone}
+        onChange={() => handleCheck(item.id)}
+        name="checked-item"
+      />
+      {item.content}
+      {isShowMenu && (
+        <ItemEditor itemId={item.id} />
+      )}
+    </li>
+  );
+}
+
+export default function TodoList() {
+  const todo = useAppSelector(selectTodo);
+  const todoList =  useAppSelector(selectTodoItems);
+  const editId = useAppSelector(selectEditId);
+  const dispatch = useAppDispatch();
+  const inputRef = useRef<HTMLTextAreaElement>(null);
+
+  function handleChange(e: React.ChangeEvent<HTMLTextAreaElement>) {
+    dispatch(todoChanged(e.target.value));
+  }
+
+  if (editId !== null) {
+    inputRef.current?.focus();
+  }
+
+  const items = todoList.map((item: TodoItem) => {
+    return <ListItem key={item.id} item={item} />
+  });
+
+  function handleConfirmEdit() {
+    dispatch(itemEdited());
+  }
+
+  function handleAdd() {
+    dispatch(itemAdded());
+    inputRef.current?.focus();
+  }
+
+  return (
+    <div>
+      <h1>Todo List</h1>
+      <ul>
+        {items}
+      </ul>
+      <div className='todo-input'>
+      <textarea ref={inputRef} onChange={handleChange} value={todo} name="add-todo-item" />
+      <button onClick={() => {editId !== null ? handleConfirmEdit() : handleAdd()}}>
+        {editId !== null ? (
+          <BiEditAlt />
+        ): (
+          <BiSolidMessageSquareAdd  />
+        )}
+      </button>
+      </div>
+    </div>
+  );
+}
