@@ -89,6 +89,13 @@ export default function TodoList() {
     return <ListItem key={item.id} item={item} />
   });
 
+  function handleSubmit() {
+    if (editId !== null) {
+      handleConfirmEdit();
+    } else {
+      handleAdd();
+    }
+  }
   function handleConfirmEdit() {
     dispatch(itemEdited());
   }
@@ -98,21 +105,34 @@ export default function TodoList() {
     inputRef.current?.focus();
   }
 
+  function handleEnter(e: React.KeyboardEvent<HTMLTextAreaElement>) {
+    if (e.key == 'Enter' &&  e.shiftKey) {
+      handleSubmit();
+    }
+  }
+
   return (
     <div>
-      <h1>Todo List</h1>
+      <h1>ToDo List</h1>
       <ul>
         {items}
       </ul>
       <div className='todo-input'>
-      <textarea ref={inputRef} onChange={handleChange} value={todo} name="add-todo-item" />
-      <button onClick={() => {editId !== null ? handleConfirmEdit() : handleAdd()}}>
-        {editId !== null ? (
-          <BiEditAlt />
-        ): (
-          <BiSolidMessageSquareAdd  />
-        )}
-      </button>
+        <textarea
+          ref={inputRef}
+          onChange={handleChange}
+          onKeyUp={handleEnter}
+          placeholder='Input your ToDo and press a ➕ button at bottom or Shift➕Enter'
+          value={todo}
+          name="add-todo-item"
+        />
+        <button onClick={handleSubmit}>
+          {editId !== null ? (
+            <BiEditAlt />
+          ) : (
+            <BiSolidMessageSquareAdd />
+          )}
+        </button>
       </div>
     </div>
   );
