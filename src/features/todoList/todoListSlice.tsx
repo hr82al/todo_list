@@ -18,6 +18,10 @@ function getTodoList():TodoItem[] {
   return [];
 }
 
+function saveTodoList(todoList: TodoItem[]) {
+  localStorage.setItem("todos", JSON.stringify(todoList));
+}
+
 const initialState: {
   items: TodoItem[];
   editId: number | null;
@@ -87,11 +91,23 @@ export const todoListSlice = createSlice({
     todoChanged: (state, action: {payload: string}) => {
       state.todo = action.payload;
     },
+
+    saved: (state) => {
+      saveTodoList(state.items);
+    }
   }
 });
 
 export const selectTodoItems = (state: RootState) => state.todoList.items;
 export const selectEditId = (state: RootState) => state.todoList.editId;
 export const selectTodo = (state: RootState) => state.todoList.todo;
-export const { itemAdded, itemEdited, itemDeleted, switchChecked, editIdUpdated, todoChanged } = todoListSlice.actions;
+export const {
+  itemAdded, 
+  itemEdited, 
+  itemDeleted, 
+  switchChecked, 
+  editIdUpdated, 
+  todoChanged,
+  saved,
+} = todoListSlice.actions;
 export default todoListSlice.reducer;

@@ -9,8 +9,9 @@ import {
   editIdUpdated,
   todoChanged,
   selectTodo,
+  saved,
 } from './todoListSlice'
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { BiEditAlt, BiSolidMessageSquareAdd } from 'react-icons/bi';
 import { AiFillDelete } from 'react-icons/ai'
@@ -69,6 +70,12 @@ export default function TodoList() {
   const editId = useAppSelector(selectEditId);
   const dispatch = useAppDispatch();
   const inputRef = useRef<HTMLTextAreaElement>(null);
+
+  useEffect(() => {
+    return () => {
+      dispatch(saved());
+    }
+  })
 
   function handleChange(e: React.ChangeEvent<HTMLTextAreaElement>) {
     dispatch(todoChanged(e.target.value));
