@@ -73,13 +73,37 @@ ul {
   padding: 0.6rem;
   background-color: var(--ta-us);
   font-family: Puppybllies, Arial, Helvetica, sans-serif;
-  
 }
 
 @media screen and (max-width: 600px)  {
   ul {
     grid-template-columns: 1fr;
   }
+}
+
+.edit-li input[type=checkbox] {
+  appearance: none;
+  -webkit-appearance: none;
+  height: 0.8rem;
+  width: 0.8rem;
+  margin-left: 0.2rem;
+  margin-bottom: 0.4rem;
+  margin-right: 0.6rem;
+  cursor: pointer;
+  vertical-align: middle;
+  background-color: var(--ta);
+  background-size: 100%;
+  background-position: right center;
+  background-repeat: no-repeat;
+  background-image: url("./assets/selected_off.svg");
+
+}
+
+.edit-li input[type=checkbox]:checked {
+  background-image: url("./assets/selected_on.svg");
+  background-size: 100%;
+  background-position: right center;
+  background-repeat: no-repeat;
 }
 
 .edit-btns {
